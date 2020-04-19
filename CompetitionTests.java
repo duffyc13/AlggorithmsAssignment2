@@ -13,17 +13,23 @@ public class CompetitionTests {
     @Test
     public void testNoIn()
     {
-      CompetitionDijkstra comp = new CompetitionDijkstra(null, 50, 60, 90);
-      assertEquals("Time required", -1, comp.timeRequiredforCompetition());
+      CompetitionDijkstra compD = new CompetitionDijkstra(null, 50, 60, 90);
+      assertEquals("Time required", -1, compD.timeRequiredforCompetition());
+      CompetitionFloydWarshall compF = new CompetitionFloydWarshall(null, 50, 60, 90);
+      assertEquals("Time required", -1, compF.timeRequiredforCompetition());
     }
     
     @Test
     public void testWrongSpeed()
     {
-      CompetitionDijkstra comp = new CompetitionDijkstra("tinyEWD.txt", -20, 60, 90);
-      assertEquals("Time required", -1, comp.timeRequiredforCompetition());
-      CompetitionDijkstra stra1 = new CompetitionDijkstra("tinyEWD.txt", 50, 60, 101);
-      assertEquals("Time required", -1, stra1.timeRequiredforCompetition());
+      CompetitionDijkstra compD = new CompetitionDijkstra("tinyEWD.txt", -20, 60, 90);
+      assertEquals("Time required", -1, compD.timeRequiredforCompetition());
+      CompetitionDijkstra compD1 = new CompetitionDijkstra("tinyEWD.txt", 50, 60, 101);
+      assertEquals("Time required", -1, compD1.timeRequiredforCompetition());
+      CompetitionFloydWarshall compF = new CompetitionFloydWarshall(null, 50, 60, 90);
+      assertEquals("Time required", -1, compF.timeRequiredforCompetition());
+      CompetitionFloydWarshall compF1 = new CompetitionFloydWarshall(null, 50, 60, 90);
+      assertEquals("Time required", -1, compF1.timeRequiredforCompetition());
     }
 
     @Test
@@ -45,11 +51,13 @@ public class CompetitionTests {
     {
       CompetitionDijkstra comp = new CompetitionDijkstra("ta.txt", -20, 60, 90);
       assertEquals("Time required", -1, comp.timeRequiredforCompetition());
-      System.out.println("minimum time " + comp.timeRequiredforCompetition());
+      CompetitionFloydWarshall compF = new CompetitionFloydWarshall("ta.txt", 50, 60, 90);
+      assertEquals("Time required", -1, compF.timeRequiredforCompetition());
     }
     
     @Test
     public void testFWConstructor() {
-        //TODO
+    	String a="tinyEWD.txt";
+        CompetitionFloydWarshall compF = new CompetitionFloydWarshall(a, 50, 60, 90);
     }
 }

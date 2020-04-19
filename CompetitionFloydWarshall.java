@@ -1,3 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
  * city intersections. In order to win, the three contestants need all to meet at any intersection
@@ -17,23 +25,113 @@
 
 public class CompetitionFloydWarshall {
 
-    /**
-     * @param filename: A filename containing the details of the city road network
-     * @param sA, sB, sC: speeds for 3 contestants
-     */
-    CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+	// Member variables...
+	public int intersections;
+	public int streets;
+	public int speed1;
+	public int speed2;
+	public int speed3;
+	public int SOURCE = 0;
+	public int DESTINATION = 1;
+	public int WEIGHT = 2;
+	double[][] graph=null;
 
-        //TODO
-    }
+	private void initGraph(int totalIntersections)
+	{
+
+		this.graph = new double[totalIntersections][totalIntersections];
+		for (int i = 0; i < graph.length; i++)
+		{
+
+			for (int j = 0; j < graph.length; j++)
+			{
+				if (i == j)
+				{
+					graph[i][j] = 0;
+				} 
+				else
+				{
+					graph[i][j] = Double.MAX_VALUE;
+				}
+			}
+		}
+	}
+
+	private void addEdge(int source, int destination, double weight)
+	{
+		graph[source][destination] = weight;
+	}
+
+	/**
+	 * @param filename: A filename containing the details of the city road network
+	 * @param sA, sB, sC: speeds for 3 contestants
+	 */
+	CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+
+		if (filename != null)
+		{
+			this.speed1 = sA;
+			this.speed2 = sB;
+			this.speed3 = sC;
+
+			try 
+			{
+				FileReader fileReader = new FileReader(filename); // Text file submitted with java files
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+				String interNumber = bufferedReader.readLine(); // read number of intersections
+				if (interNumber != null) 
+				{
+					String[] intersectionsData = interNumber.split(" ");
+					this.intersections = Integer.parseInt (intersectionsData[0]);
+					initGraph(this.intersections);
+				}
+				String streetsNumber = bufferedReader.readLine(); // read number of streets
+				if (streetsNumber != null) 
+				{
+					String[] streetsData = streetsNumber.split(" ");
+					this.streets = Integer.parseInt (streetsData[0]);
+				}
+
+				boolean endOfFile = false;
+				while(!endOfFile) // read all street connections and create API for weighted graph 
+				{
+					String streetInfo = bufferedReader.readLine();
+					if (streetInfo != null) {
+						String[] streetData = streetInfo.split("\\s+");
+						int a = Integer.parseInt (streetData[SOURCE]);
+						int b = Integer.parseInt (streetData[DESTINATION]);
+						double c = Double.parseDouble (streetData[WEIGHT]) * 1000;
+						addEdge(a, b, c);
+					}
+					else
+					{
+						endOfFile = true;
+					}
+				}
+				bufferedReader.close();    
+				fileReader.close();
+			} 
+			catch (FileNotFoundException e) 
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 
 
-    /**
-     * @return int: minimum minutes that will pass before the three contestants can meet
-     */
-    public int timeRequiredforCompetition(){
-
-        //TO DO
-        return -1;
-    }
+	/**
+	 * @return int: minimum minutes that will pass before the three contestants can meet
+	 */
+	public int timeRequiredforCompetition(){
+		if (this.speed1>100||this.speed2>100||this.speed3>100)
+			return -1;
+		if (this.speed1<50||this.speed2<50||this.speed3<50)
+			return -1;
+		return -1;
+	}
 
 }
