@@ -7,48 +7,45 @@ public class CompetitionTests {
     @Test
     public void testDijkstraConstructor() {
     	String a="tinyEWD.txt";
-        CompetitionDijkstra stra = new CompetitionDijkstra(a, 50, 60, 90);
+        CompetitionDijkstra comp = new CompetitionDijkstra(a, 50, 60, 90);
     }
     
     @Test
     public void testNoIn()
     {
-      CompetitionDijkstra stra = new CompetitionDijkstra(null, 50, 60, 90);
-      assertEquals("Time required", -1, stra.timeRequiredforCompetition());
-      //CompetitionFloydWarshall fw = new CompetitionFloydWarshall(null, 50, 60, 90);
-      //assertEquals("Time required", -1, fw.timeRequiredforCompetition());
+      CompetitionDijkstra comp = new CompetitionDijkstra(null, 50, 60, 90);
+      assertEquals("Time required", -1, comp.timeRequiredforCompetition());
     }
     
     @Test
-    public void testMinusSpeed()
+    public void testWrongSpeed()
     {
-      CompetitionDijkstra stra = new CompetitionDijkstra("tinyEWD.txt", -20, 60, 90);
-      assertEquals("Time required", -1, stra.timeRequiredforCompetition());
-      //CompetitionFloydWarshall fw = new CompetitionFloydWarshall("tinyEWD.txt", -20, 60, 90);
-      //assertEquals("Time required", -1, fw.timeRequiredforCompetition());
+      CompetitionDijkstra comp = new CompetitionDijkstra("tinyEWD.txt", -20, 60, 90);
+      assertEquals("Time required", -1, comp.timeRequiredforCompetition());
+      CompetitionDijkstra stra1 = new CompetitionDijkstra("tinyEWD.txt", 50, 60, 101);
+      assertEquals("Time required", -1, stra1.timeRequiredforCompetition());
     }
 
     @Test
-    public void testInI()
+    public void testInputs()
     {
-      CompetitionDijkstra stra = new CompetitionDijkstra("input-I.txt", 4, 7, 1);
-      assertEquals("Time required", 12000, stra.timeRequiredforCompetition());
-      System.out.println("input-I: Minimum time required: " + stra.timeRequiredforCompetition() + " seconds");
-      
-      //CompetitionFloydWarshall fw = new CompetitionFloydWarshall("input-I.txt", 52, 60, 22);
-      //assertEquals("Time required", 546, fw.timeRequiredforCompetition());
-      //System.out.println("input-I: Minimum time required: " + fw.timeRequiredforCompetition() + " seconds");
+      CompetitionDijkstra comp = new CompetitionDijkstra("input-K.txt", 51, 70, 88);
+      assertEquals("Time required", 314, comp.timeRequiredforCompetition());
+      System.out.println("input-K: Minimum time required: " + comp.timeRequiredforCompetition() + " seconds");
+      CompetitionDijkstra comp2 = new CompetitionDijkstra("input-I.txt", 72, 70, 65);
+      assertEquals("Time required", 185, comp2.timeRequiredforCompetition());
+      System.out.println("input-I: Minimum time required: " + comp2.timeRequiredforCompetition() + " seconds");
+      CompetitionDijkstra comp3 = new CompetitionDijkstra("input-B.txt", 60, 80, 50);
+      assertEquals("Time required", 10000, comp3.timeRequiredforCompetition());
+      System.out.println("input-I: Minimum time required: " + comp3.timeRequiredforCompetition() + " seconds");
     }
     
     @Test
     public void testWrongFile()
     {
-      CompetitionDijkstra stra = new CompetitionDijkstra("ta.txt", -20, 60, 90);
-      assertEquals("Time required", -1, stra.timeRequiredforCompetition());
-      System.out.println("minimum time " + stra.timeRequiredforCompetition());
-      //CompetitionFloydWarshall fw = new CompetitionFloydWarshall("ta.txt", -20, 60, 90);
-      //assertEquals("Time required", -1, fw.timeRequiredforCompetition());
-      //System.out.println("minimum time " + fw.timeRequiredforCompetition());
+      CompetitionDijkstra comp = new CompetitionDijkstra("ta.txt", -20, 60, 90);
+      assertEquals("Time required", -1, comp.timeRequiredforCompetition());
+      System.out.println("minimum time " + comp.timeRequiredforCompetition());
     }
     
     @Test

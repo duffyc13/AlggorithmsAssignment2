@@ -229,24 +229,23 @@ public class CompetitionDijkstra {
     }
     
 
-    
-
-
     /**
     * @return int: minimum minutes that will pass before the three contestants can meet
      */
     public int timeRequiredforCompetition()
     {
-    	if(this.nodesMap.size()==0)
-    	    return -1;
-    	if (this.speed1<0||this.speed2<0||this.speed3<0)
-    		return -1;
     	double longestTime =0.0;
         int longestestD=0;
         int longestP=0;
         double dist1;
         double dist2;
         double dist3;
+    	if(this.nodesMap.size()==0)
+    	    return -1;
+    	if (this.speed1>100||this.speed2>100||this.speed3>100)
+    		return -1;
+    	if (this.speed1<50||this.speed2<50||this.speed3<50)
+    		return -1;
         for (int finalD = 0; finalD < nodesMap.size(); finalD++)
         {
           allNodesReset();
@@ -298,7 +297,8 @@ public class CompetitionDijkstra {
     
     public static void main(String[] args) 
     {
-    	CompetitionDijkstra comp = new CompetitionDijkstra(null, 1, 1, 1);
+    	CompetitionDijkstra stra = new CompetitionDijkstra("input-I.txt", 50, 70, 60);
+    	System.out.println(stra.timeRequiredforCompetition());
     }
 
 }
