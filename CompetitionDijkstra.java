@@ -172,6 +172,64 @@ public class CompetitionDijkstra {
     }
     
     
+    private static Node getLowestDistanceNode(Set <Node> unsettledNodes) 
+    {
+      Node lowestDistanceNode = null;
+      double lowestDistance = Double.MAX_VALUE;
+      for (Node node: unsettledNodes) 
+      {
+        double nodeDistance = node.getDistance();
+        if (nodeDistance < lowestDistance) 
+        {
+          lowestDistance = nodeDistance;
+          lowestDistanceNode = node;
+        }
+      }
+      return lowestDistanceNode;
+    }
+    
+    
+    private static void calculateMinimumDistance(Node evaluationNode, Double edgeWeight, Node sourceNode)
+    {
+      Double sourceDistance = sourceNode.getDistance();
+      if (sourceDistance + edgeWeight < evaluationNode.getDistance())
+      {
+        evaluationNode.setDistance(sourceDistance + edgeWeight);
+        LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+        shortestPath.add(sourceNode);
+        evaluationNode.setShortestPath(shortestPath);
+      }
+    }
+    
+    
+    public static void calculateShortestPathFromSource(Node source)
+    {
+      source.setDistance(0);
+      Set<Node> sorted = new HashSet<>();
+      Set<Node> unsorted = new HashSet<>();
+
+      unsorted.add(source);
+
+      while (unsorted.size() != 0)
+      {
+        Node currentNode = getLowestDistanceNode(unsorted);
+        unsorted.remove(currentNode);
+        for (Entry<Node, Double> adjacencyPair : currentNode.getAdjacentNodes().entrySet())
+        {
+          Node adjacentNode = adjacencyPair.getKey();
+          Double edgeWeight = adjacencyPair.getValue();
+          if (!sorted.contains(adjacentNode))
+          {
+            calculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
+            unsorted.add(adjacentNode);
+          }
+        }
+        sorted.add(currentNode);
+      }
+    }
+    
+
+    
 
 
     /**
@@ -179,9 +237,63 @@ public class CompetitionDijkstra {
      */
     public int timeRequiredforCompetition()
     {
-
-        //TO DO
-        return -1;
+    	if(this.nodesMap.size()==0)
+    	    return -1;
+    	if (this.speed1<0||this.speed2<0||this.speed3<0)
+    		return -1;
+    	double longestTime =0.0;
+        int longestestD=0;
+        int longestP=0;
+        double dist1;
+        double dist2;
+        double dist3;
+        for (int finalD = 0; finalD < nodesMap.size(); finalD++)
+        {
+          allNodesReset();
+          calculateShortestPathFromSource(nodesMap.get(finalD));
+          for (int indexA = 0; indexA < nodesMap.size(); indexA++)
+          {
+            dist1 = nodesMap.get(indexA).getDistance();
+            if (dist1==Double.MAX_VALUE||dist1<0)
+              return -1;
+            dist1 = dist1/speed1; 
+            if (dist1>longestTime)
+            {  
+              longestTime=dist1;
+              longestestD=finalD;
+              longestP=indexA;
+            }  
+            for (int indexB = 0; indexB < nodesMap.size(); indexB++)
+            {
+              dist2 = nodesMap.get(indexB).getDistance();
+              if (dist2 == Double.MAX_VALUE||dist2<0)
+                return -1;
+              dist2 = dist2 / speed2;
+              if (dist2 > longestTime)
+              {
+                longestTime = dist2;
+                longestestD = finalD;
+                longestP = indexB;
+              }
+              
+              for (int indexC = 0; indexC < nodesMap.size(); indexC++)
+              {
+                dist3 = nodesMap.get(indexC).getDistance();
+                if (dist3==Double.MAX_VALUE||dist3<0)
+                  return -1;
+                dist3 = dist3/speed3; 
+                if (dist3>longestTime)
+                {
+                  longestTime=dist3;
+                  longestestD=finalD;
+                  longestP=indexC;
+                }
+              }
+            }
+          }
+        }
+        int ret=(int)Math.ceil(longestTime);
+        return ret;
     }
     
     public static void main(String[] args) 
